@@ -11,7 +11,7 @@ export class ClientController {
         const {name, email} = req.body as {name: string, email: string};
         
         if(!name || !email){
-            throw new Error('Preencha todos os dados');
+            res.status(422).send('Preencha todos os dados');
         }
 
         return await this.clientService.create({name, email});
