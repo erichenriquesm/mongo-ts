@@ -68,6 +68,11 @@ export class ClientController {
     public async update(req: Request, res: Response) {
         try {
             const data: Partial<ICreateClient> = req.body;
+            
+            if(data.email){
+                delete data.email;
+            }
+
             const id: string = req.params.id;
             return res.send(await this.clientService.update(id, data));
         }catch(error: any | {code:string}){
