@@ -34,7 +34,10 @@ export class ClientService {
             select: this.mainColumns
         });
 
-        return client;
+        return {
+            message: 'Client created!',
+            client
+        };
     }
 
     public async login(credentials: ILogin) {
