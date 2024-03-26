@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { ClientService } from "../services/client.service.js";
-import { ICreateClient } from "../interfaces/create-client.js";
+import { IClient } from "../interfaces/client.js";
 import { PrismaClient } from "@prisma/client";
 import prismaClient from "../prisma/index.js";
 import * as bcrypt from 'bcrypt';
@@ -15,7 +15,7 @@ export class ClientController {
     }
 
     public async create(req: Request, res: Response) {
-        const { name, email, password } = req.body as ICreateClient;
+        const { name, email, password } = req.body as IClient;
 
         if (!name || !email || !password || password && password.length < 8) {
             return res.status(422).send('Verify your credentials');
@@ -67,12 +67,18 @@ export class ClientController {
 
     public async update(req: Request, res: Response) {
         try {
-            const data: Partial<ICreateClient> = req.body;
+            const data: Partial<IClient> = req.body;
             
             if(data.email){
                 delete data.email;
             }
 
+            if (data.password && data.password.length < 8) {
+                return res.status(422).send('Verify your credentials');
+            }else if(data.password && data.password.length >= 8){
+                data.password = await bcrypt.hash(data.password, 10);
+            }
+            
             const id: string = req.params.id;
             return res.send(await this.clientService.update(id, data));
         }catch(error: any | {code:string}){

@@ -1,11 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import prismaClient from "../prisma/index.js";
-import { ICreateClient } from "../interfaces/create-client.js";
 import { ILogin } from "../interfaces/login.js";
 import * as bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv'; 
-import { IUpdateClient } from "../interfaces/update-client.js";
 import { IClient } from "../interfaces/client.js";
 dotenv.config({ path: '../../.env' });
 
@@ -25,7 +23,7 @@ export class ClientService {
         };
     }
 
-    public async create(resources: ICreateClient) {
+    public async create(resources: IClient) {
         const client = await this.prisma.client.create({
             data: {
                 name: resources.name,
@@ -91,7 +89,7 @@ export class ClientService {
         });
     }
 
-    public async update(id: string, data: Partial<IUpdateClient>) {
+    public async update(id: string, data: Partial<IClient>) {
         const client = await this.prisma.client.update({
             where: {
                 id: id
