@@ -1,6 +1,6 @@
 import Express from 'express';
-import * as dotenv from 'dotenv';
 import clientRouter from './routes/client-routes.js';
+import * as dotenv from 'dotenv'; 
 dotenv.config({ path: '../.env' });
 
 const app =Express();

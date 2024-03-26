@@ -9,6 +9,11 @@ clientRouter.post('/', async (req: Request, res: Response) => {
     await clientController.create(req, res);
 });
 
+clientRouter.post('/login', async (req: Request, res: Response) => {
+    await clientController.login(req, res);
+});
+
+
 clientRouter.get('/', async (req: Request, res: Response) => {
     await clientController.list(req, res);
 });
