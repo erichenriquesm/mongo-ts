@@ -1,4 +1,4 @@
-- Preencher as configurações do ambiente em um arquivo .env
+- Preencher as variáveis de ambiente em um arquivo .env
 
 - Buildar o projeto: npx tsc
 
