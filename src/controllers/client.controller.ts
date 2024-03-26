@@ -5,19 +5,22 @@ import { PrismaClient } from "@prisma/client";
 import prismaClient from "../prisma/index.js";
 import * as bcrypt from 'bcrypt';
 import { ILogin } from "../interfaces/login.js";
+import { Utils } from "../facades/utils.js";
 
 export class ClientController {
     private clientService: ClientService;
     private prisma: PrismaClient;
+    private utils: Utils;
     constructor() {
         this.clientService = new ClientService();
         this.prisma = prismaClient;
+        this.utils = new Utils();
     }
 
     public async create(req: Request, res: Response) {
         const { name, email, password } = req.body as IClient;
 
-        if (!name || !email || !password || password && password.length < 8) {
+        if (!name || !email || (email && !this.utils.validEmail(email)) || !password || password && password.length < 8) {
             return res.status(422).send('Verify your credentials');
         }
 
@@ -70,7 +73,7 @@ export class ClientController {
             const data: Partial<IClient> = req.body;
             
             if(data.email){
-                delete data.email;
+                return res.status(403).send('Cannot update email');
             }
 
             if (data.password && data.password.length < 8) {
