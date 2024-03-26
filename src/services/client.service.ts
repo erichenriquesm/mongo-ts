@@ -12,7 +12,7 @@ export class ClientService {
         this.prisma = prismaClient;
     }
     public async create(resources:ICreateClient){
-        const client = this.prisma.client.create({
+        const client = await this.prisma.client.create({
             data: {
                 name: resources.name,
                 email: resources.email,
@@ -24,6 +24,24 @@ export class ClientService {
     }
 
     public async list(){
-        return this.prisma.client.findMany();
+        return await this.prisma.client.findMany();
+    }
+
+    public async show(id:string){
+        return await this.prisma.client.findUnique({
+            where: {
+                id: id
+            }
+        });
+    }
+
+    public async update(id:string, data){
+        return await this.prisma.client.update({
+            where : {
+                id: id
+            },
+            data: data
+        });
+        
     }
 }
