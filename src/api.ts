@@ -1,4 +1,4 @@
-import Express from 'express';
+import Express, { Request, Response } from 'express';
 import clientRouter from './routes/client-routes.js';
 import * as dotenv from 'dotenv'; 
 dotenv.config({ path: '../.env' });
@@ -11,6 +11,6 @@ app.use(Express.json());
 
 app.use('/client', clientRouter);
 
-app.get('/health', async () => {
-    return 'Ok';
+app.get('/health', async (req: Request, res: Response) => {
+    return res.send('Ok');
 });
